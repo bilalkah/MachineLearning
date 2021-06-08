@@ -1,0 +1,3 @@
+dataset/*
+Pytorch/weights/*
+main.py
