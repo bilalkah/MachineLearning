@@ -112,12 +112,11 @@ class EfficientNet(nn.Module):
         last_channels = ceil(1280 * width_factor)
         self.pool = nn.AdaptiveAvgPool2d(1)
         self.features = self.create_features(width_factor, depth_factor,last_channels)
-        """
         self.classifier = nn.Sequential(
             nn.Dropout(dropout_rate),
             nn.Linear(last_channels,num_classes)
         )
-        """
+        
 
     def calculate_factors(self, version, alpha=1.2,beta=1.1):
         phi, res, drop_rate = phi_values[version]
@@ -153,9 +152,8 @@ class EfficientNet(nn.Module):
         return nn.Sequential(*features)
 
     def forward(self, x):
-        #x = self.pool(self.features(x))
-        
-        return self.features(x)#self.classifier(x.view(x.shape[0],-1))
+        x = self.pool(self.features(x))
+        return self.classifier(x.view(x.shape[0],-1))
 
 def test():
     device = "cuda" if torch.cuda.is_available() else "cpu"
