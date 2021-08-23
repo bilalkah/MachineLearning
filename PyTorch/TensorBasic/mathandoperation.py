@@ -62,7 +62,7 @@ x2 = torch.rand((1,5))
 
 z = x1 - x2
 z = x1 ** x2
-
+x = torch.tensor([1,2,3])
 # Other useful tensor operations
 sum_x = torch.sum(x,dim=0)
 print(x)
