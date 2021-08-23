@@ -1,6 +1,5 @@
 dataset/*
-Pytorch/weights/*
-Pytorch/implementations/__pycache__/*
+PyTorch/cinic10/
 .vscode
 Tensorflow/SKIN CANCER PROJECT/dataset
 Tensorflow/FUNCTIONAL API/dataset

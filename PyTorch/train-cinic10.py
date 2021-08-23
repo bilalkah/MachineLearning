@@ -1,24 +1,27 @@
-from torchvision.transforms.transforms import Compose
-from mobilenetv2 import arch
+from Classification.mobilenetv2 import arch
+from CustomLoss.losses import CFocalLoss
 from model import Model
+
 import torch
 import torch.nn as nn
 import torch.optim as optim
+import torchmetrics
+import torch.nn.functional as F
 from torch.utils import data
 from torch.utils.data import DataLoader
 import torchvision.datasets as datasets
 import torchvision.transforms as transforms
+from torchvision.transforms.transforms import Compose
+
 import tqdm
 from time import sleep
-import torchmetrics
-import torch.nn.functional as F
-from losses import CFocalLoss
+
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 num_classes = 10
 lr = 1e-4
-batch_size = 20
+batch_size = 64
 epochs = 100
 
 # create dataset from directory "cinic10" for torchvision
@@ -37,7 +40,7 @@ train_loader = DataLoader(
     shuffle=True,
 )
 
-valid_cinic10 = datasets.ImageFolder(root='cinic10/horse-test',
+valid_cinic10 = datasets.ImageFolder(root='cinic10/valid',
                                      transform=Compose([
                                          transforms.RandomResizedCrop(224),
                                          transforms.RandomHorizontalFlip(),
