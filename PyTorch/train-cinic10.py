@@ -62,5 +62,5 @@ alpha = 0.84
 gamma = 2.8
 criterion = CFocalLoss(alpha,gamma).to(device)
 model = Model(net,device)
-
+model.load_weight("mobilenet-0.5")
 model.train(train_loader,valid_loader,epochs,batch_size,lr,optimizer,criterion,"mobilenet")
