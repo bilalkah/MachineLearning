@@ -21,11 +21,11 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 num_classes = 10
 lr = 1e-4
-batch_size = 64
+batch_size = 32
 epochs = 100
 
 # create dataset from directory "cinic10" for torchvision
-train_cinic10 = datasets.ImageFolder(root='cinic10/train',
+train_cinic10 = datasets.ImageFolder(root='cinic10/cinic10/train',
                                      transform=Compose([
                                          transforms.RandomResizedCrop(224),
                                          transforms.RandomHorizontalFlip(),
@@ -40,7 +40,7 @@ train_loader = DataLoader(
     shuffle=True,
 )
 
-valid_cinic10 = datasets.ImageFolder(root='cinic10/valid',
+valid_cinic10 = datasets.ImageFolder(root='cinic10/horse-test',
                                      transform=Compose([
                                          transforms.RandomResizedCrop(224),
                                          transforms.RandomHorizontalFlip(),
@@ -51,7 +51,7 @@ valid_cinic10 = datasets.ImageFolder(root='cinic10/valid',
 
 valid_loader = DataLoader(
     dataset=valid_cinic10,
-    batch_size=batch_size,
+    batch_size=10,
     shuffle=True,
 )
 
