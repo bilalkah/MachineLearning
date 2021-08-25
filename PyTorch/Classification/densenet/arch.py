@@ -54,7 +54,7 @@ class DenseNet(nn.Module):
         self.arch = DenseNet_arch[model_arch]
         self.model = nn.Sequential(
             nn.Conv2d(3,growth_rate,7,2,3),
-            nn.MaxPool2d(3,2,1)
+            nn.MaxPool2d(3,2,1),
             DenseBlock(growth_rate, self.arch[0]),
             TransitionBlock(growth_rate*(self.arch[0]+1), growth_rate),
             DenseBlock(growth_rate, self.arch[1]),
@@ -62,9 +62,14 @@ class DenseNet(nn.Module):
             DenseBlock(growth_rate, self.arch[2]),
             TransitionBlock(growth_rate*(self.arch[2]+1), growth_rate),
             DenseBlock(growth_rate, self.arch[3]),
-            nn.AvgPool2d(7,1).view(-1,growth_rate*(self.arch[3]+1)),
-            nn.Linear(growth_rate*(self.arch[3]+1), num_classes)
+            nn.AvgPool2d(7,1)
         )
+        self.classifier = nn.Linear(growth_rate*(self.arch[3]+1), num_classes)
+        
+    def forward(self,x):
+        x = self.model(x).view(x.size(0),-1)
+        return self.classifier(x)
+        
 
 if __name__ == '__main__':
     net = torch.max_pool2d(kernel_size=3, stride=2, padding=1)
