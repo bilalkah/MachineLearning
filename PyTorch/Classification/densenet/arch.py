@@ -43,8 +43,7 @@ class DenseBlock(nn.Module):
     def forward(self,x):
         for i in range(0,len(self.dense_blocks),2):
             y = self.dense_blocks[i:i+2](x)
-            torch.stack([x,y],dim=1)
-            x = y
+            x = torch.cat([x,y],dim=1)
         return x
 
 
