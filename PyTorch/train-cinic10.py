@@ -1,4 +1,4 @@
-from Classification.mobilenetv2 import arch
+from Classification.senet import arch
 from CustomLoss.losses import CFocalLoss
 from model import Model
 
@@ -21,15 +21,15 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 num_classes = 10
 lr = 1e-4
-batch_size = 32
+batch_size = 16
 epochs = 100
 
 # create dataset from directory "cinic10" for torchvision
-train_cinic10 = datasets.ImageFolder(root='cinic10/cinic10/train',
+train_cinic10 = datasets.ImageFolder(root='cinic10/horse-test',
                                      transform=Compose([
-                                         transforms.RandomResizedCrop(224),
-                                         transforms.RandomHorizontalFlip(),
-                                         transforms.RandomVerticalFlip(),
+                                         #transforms.RandomResizedCrop(224),
+                                         #transforms.RandomHorizontalFlip(),
+                                         #transforms.RandomVerticalFlip(),
                                          transforms.Resize((224, 224)),
                                          transforms.ToTensor(),
                                      ]))
@@ -42,9 +42,9 @@ train_loader = DataLoader(
 
 valid_cinic10 = datasets.ImageFolder(root='cinic10/horse-test',
                                      transform=Compose([
-                                         transforms.RandomResizedCrop(224),
-                                         transforms.RandomHorizontalFlip(),
-                                         transforms.RandomVerticalFlip(),
+                                         #transforms.RandomResizedCrop(224),
+                                         #transforms.RandomHorizontalFlip(),
+                                         #transforms.RandomVerticalFlip(),
                                          transforms.Resize((224, 224)),
                                          transforms.ToTensor(),
                                      ]))
@@ -55,12 +55,12 @@ valid_loader = DataLoader(
     shuffle=True,
 )
 
-net = arch.MobileNetV2(10).to(device)
+net = arch.Darknet19withSE(num_classes).to(device)
 optimizer = optim.Adam(net.parameters(),lr=lr)
 metric = torchmetrics.Accuracy().to(device)
 alpha = 0.84
 gamma = 2.8
-criterion = CFocalLoss(alpha,gamma).to(device)
+criterion = nn.CrossEntropyLoss().to(device)
 model = Model(net,device)
-model.load_weight("mobilenet-0.5")
-model.train(train_loader,valid_loader,epochs,batch_size,lr,optimizer,criterion,"mobilenet")
+
+model.train(train_loader,valid_loader,epochs,batch_size,lr,optimizer,criterion,"darknet19")
