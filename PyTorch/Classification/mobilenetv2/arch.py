@@ -63,7 +63,7 @@ class BottleneckBlock(nn.Module):
     def forward(self,x):
         out = self.expand_layer(x)
         out = self.depthwise_separable_layer(out)
-        if x.shape[1:] == out.shape[1:]:
+        if self.stride==1 and x.shape[1:] == out.shape[1:]:
             return x + out
         return out
 
