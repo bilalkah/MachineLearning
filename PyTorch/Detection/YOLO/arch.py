@@ -70,14 +70,14 @@ class DarkNet(nn.Module):
 
 
 class Yolov1(nn.Module):
-    def __init__(self, num_classes):
+    def __init__(self, S=7, B=2, C=20):
         super(Yolov1, self).__init__()
         
-        self.c = num_classes
-        self.b = 2
-        self.s = 7
+        self.C = C
+        self.B = B
+        self.S = S
         
-        self.backbone = DarkNet(num_classes=self.c, include_top=False)
+        self.backbone = DarkNet(num_classes=self.C, include_top=False)
         self.detection = self._make_detection_layers()
         self.prediction = self._make_prediction_layers()
     
@@ -99,21 +99,21 @@ class Yolov1(nn.Module):
         )
         return detection
         
-    def _make_prediction_layers(self):
+    def _make_prediction_layers(self, dense=512):
         prediction = nn.Sequential(
             nn.Flatten(),
-            nn.Linear(in_features=7*7*1024, out_features=4096),
+            nn.Linear(in_features=7*7*1024, out_features=dense),
             nn.LeakyReLU(0.1, inplace=True),
             nn.Dropout(0.5),
-            nn.Linear(in_features=4096, out_features=self.s*self.s*(self.b*5+self.c)),
+            nn.Linear(in_features=dense, out_features=self.S*self.S*(self.B*5+self.C)),
             nn.Sigmoid(),
         )
         return prediction
 
     def forward(self, x):
-        return self.prediction(self.detection(self.backbone(x))).view(-1,self.s,self.s,5*self.b+self.c)
+        return self.prediction(self.detection(self.backbone(x)))
 
 if __name__ == '__main__':
-    net = Yolov1(num_classes=20).to('cuda')
+    net = Yolov1(C=73).to('cuda')
     x = torch.randn(1,3,448,448).to('cuda')
     print(net(x).shape)

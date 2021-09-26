@@ -1,6 +1,7 @@
 import glob
 import xml.etree.ElementTree as ET
 import os
+import csv
 
 train_xml_path = "custom_dataset/xml/train"
 # test_xml_path = "custom_dataset/xml/test"
@@ -16,6 +17,13 @@ if os.path.exists(test_yolo_path) is False:
 class_names = []
 
 for xml_file in glob.glob(train_xml_path + "/*.xml"):
+    with open("custom_dataset/yolo/train.csv", mode="a", newline="") as train_csv:
+        image_file = os.path.basename(xml_file).replace(".xml", ".jpg")
+        text_file = os.path.basename(xml_file).replace(".xml", ".txt")
+        data = [image_file, text_file]
+        writer = csv.writer(train_csv)
+        writer.writerow(data)
+        train_csv.close()
     tree = ET.parse(xml_file)
     root = tree.getroot()
     save_path = os.path.join(train_yolo_path, os.path.basename(xml_file).replace(".xml", ".txt"))
@@ -46,3 +54,9 @@ with open(class_names_path, "w") as f:
     for class_name in class_names:
         f.write(class_name + "\n")
     f.close()
+
+    
+
+
+print("Conversion complete!")
+
