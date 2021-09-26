@@ -18,17 +18,17 @@ from utils import (
 )
 from loss import YoloLoss
 
+"""
 seed = 123
 torch.manual_seed(seed)
-
+"""
 #Hyperparameters etc.
 lr = 2e-5
 device = "cuda" if torch.cuda.is_available() else "cpu"
-epochs = 100
-batch_size = 4
+batch_size = 6
 weight_decay = 0
-epochs = 10
-num_workers = 2
+epochs = 70
+num_workers = 4
 pin_memory = True
 load_model = False
 load_model_file = "overfit.pth.tar"
@@ -79,7 +79,7 @@ def main():
     )
     
     test_dataset = CustomDataset(
-        csv_file="custom_dataset/yolo/train.csv",
+        csv_file="custom_dataset/yolo/test.csv",
         transform=transform,
         img_dir=img_dir,
         label_dir=label_dir,
@@ -106,15 +106,28 @@ def main():
     for epoch in range(epochs):
         
         pred_boxes, target_boxes = get_bboxes(
-            train_loader, model, iou_threshold=0.5, threshold=0.4
+            test_loader, model, iou_threshold=0.5, threshold=0.4
         )
         
         mean_avg_prec = mean_average_precision(
             pred_boxes, target_boxes, iou_threshold=0.5, box_format="midpoint"
         )
         print(f"Mean average precision was {mean_avg_prec}")
-        
+        if mean_avg_prec > 0.7:
+            checkpoint = {
+                "state_dict": model.state_dict(),
+                "optimizer": optimizer.state_dict(),
+            }
+            save_checkpoint(checkpoint, filename=load_model_file)
+            import time
+            time.sleep(10)
         train_fn(train_loader, model, optimizer, loss_fn)
-        
+    checkpoint = {
+        "state_dict": model.state_dict(),
+        "optimizer": optimizer.state_dict(),
+    }
+    save_checkpoint(checkpoint, filename="last.pth.tar")
+    import time
+    time.sleep(10)
 if __name__ == "__main__":
     main()
