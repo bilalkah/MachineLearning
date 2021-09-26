@@ -1,7 +1,8 @@
 dataset/*
 PyTorch/cinic10/
 PyTorch/weights/
-
+*custom_dataset*
+*__pycache__*
 **/__pycache__
 **/.vscode
 
