@@ -1,0 +1,185 @@
+model_name: DarkNet19
+
+layers:
+  - item:
+    type: "conv2d"
+    kernel_size: 3
+    in_channels: 3
+    out_channels: 32
+    padding: 1
+    normalize: "bnorm2d" 
+    activation: "leakyrelu"
+    pooling: ["maxpool2d", kernel_size: 2, stride: 2]
+
+  - item:
+    type: "conv2d"
+    kernel_size: 3
+    in_channels: 32
+    out_channels: 64
+    padding: 1
+    normalize: "bnorm2d"
+    activation: "leakyrelu"
+
+  - item:
+    type: "conv2d"
+    kernel_size: 3
+    in_channels: 64
+    out_channels: 128
+    padding: 1
+    normalize: "bnorm2d"
+    activation: "leakyrelu"
+
+  - item:
+    type: "conv2d"
+    kernel_size: 1
+    in_channels: 128
+    out_channels: 64
+    padding: 0
+    normalize: "bnorm2d"
+    activation: "leakyrelu"
+
+  - item:
+    type: "conv2d"
+    kernel_size: 3
+    in_channels: 64
+    out_channels: 128
+    padding: 1
+    normalize: "bnorm2d"
+    activation: "leakyrelu"
+    pooling: ["maxpool2d", kernel_size: 2, stride: 2]
+
+  - item:
+    type: "conv2d"
+    kernel_size: 3
+    in_channels: 128
+    out_channels: 256
+    padding: 1
+    normalize: "bnorm2d"
+    activation: "leakyrelu"
+
+  - item:
+    type: "conv2d"
+    kernel_size: 1
+    in_channels: 256
+    out_channels: 128
+    padding: 0
+    normalize: "bnorm2d"
+    activation: "leakyrelu"
+
+  - item:
+    type: "conv2d"
+    kernel_size: 3
+    in_channels: 128
+    out_channels: 256
+    padding: 1
+    normalize: "bnorm2d"
+    activation: "leakyrelu"
+    pooling: ["maxpool2d", kernel_size: 2, stride: 2]
+
+  - item:
+    type: "conv2d"
+    kernel_size: 3
+    in_channels: 256
+    out_channels: 512
+    padding: 1
+    normalize: "bnorm2d"
+    activation: "leakyrelu"
+
+  - item:
+    type: "conv2d"
+    kernel_size: 1
+    in_channels: 512
+    out_channels: 256
+    padding: 0
+    normalize: "bnorm2d"
+    activation: "leakyrelu"
+
+  - item:
+    type: "conv2d"
+    kernel_size: 3
+    in_channels: 256
+    out_channels: 512
+    padding: 1
+    normalize: "bnorm2d"
+    activation: "leakyrelu"
+
+  - item:
+    type: "conv2d"
+    kernel_size: 1
+    in_channels: 512
+    out_channels: 256
+    padding: 0
+    normalize: "bnorm2d"
+    activation: "leakyrelu"
+
+  - item:
+    type: "conv2d"
+    kernel_size: 3
+    in_channels: 256
+    out_channels: 512
+    padding: 1
+    normalize: "bnorm2d"
+    activation: "leakyrelu"
+    pooling: ["maxpool2d", kernel_size: 2, stride: 2]
+
+  - item:
+    type: "conv2d"
+    kernel_size: 3
+    in_channels: 512
+    out_channels: 1024
+    padding: 1
+    normalize: "bnorm2d"
+    activation: "leakyrelu"
+
+  - item:
+    type: "conv2d"
+    kernel_size: 1
+    in_channels: 1024
+    out_channels: 512
+    padding: 0
+    normalize: "bnorm2d"
+    activation: "leakyrelu"
+  
+  - item:
+    type: "conv2d"
+    kernel_size: 3
+    in_channels: 512
+    out_channels: 1024
+    padding: 1
+    normalize: "bnorm2d"
+    activation: "leakyrelu"
+
+  - item:
+    type: "conv2d"
+    kernel_size: 1
+    in_channels: 1024
+    out_channels: 512
+    padding: 0
+    normalize: "bnorm2d"
+    activation: "leakyrelu"
+
+  - item:
+    type: "conv2d"
+    kernel_size: 3
+    in_channels: 512
+    out_channels: 1024
+    padding: 1
+    normalize: "bnorm2d"
+    activation: "leakyrelu"
+
+  - item:
+    type: "conv2d"
+    kernel_size: 1
+    in_channels: 1024
+    out_channels: 1000
+    normalize: "bnorm2d"
+    activation: 'leakyrelu'
+    pooling: ["adaptiveavgpool2d", {'output_size': [1,1]}]
+
+  - item:
+    type: "flatten"
+
+  - item:
+    type: "linear"
+    in_features: 1000
+    out_features: 10

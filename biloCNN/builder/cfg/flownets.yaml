@@ -1,0 +1,94 @@
+# FlowNetS Configuration File
+model_name: FlowNetS
+
+
+layers:
+  - item:
+    type: "conv2d"
+    kernel_size: 7
+    stride: 2
+    in_channels: 6
+    out_channels: 64
+    padding: 3
+    activation: "relu"
+    bnorm2d: True
+    
+  - item:
+    type: "conv2d"
+    kernel_size: 5
+    stride: 2
+    in_channels: 64
+    out_channels: 128
+    padding: 2
+    activation: "relu"
+    bnorm2d: True
+
+  - item:
+    type: "conv2d"
+    kernel_size: 5
+    stride: 2
+    in_channels: 128
+    out_channels: 256
+    padding: 2
+    activation: "relu"
+    bnorm2d: True
+
+  - item:
+    type: "conv2d"
+    kernel_size: 3
+    stride: 1
+    in_channels: 256
+    out_channels: 256
+    padding: 1
+    activation: "relu"
+    bnorm2d: True
+
+  - item:
+    type: "conv2d"
+    kernel_size: 3
+    stride: 2
+    in_channels: 256
+    out_channels: 512
+    padding: 1
+    activation: "relu"
+    bnorm2d: True
+
+  - item:
+    type: "conv2d"
+    kernel_size: 3
+    stride: 1
+    in_channels: 512
+    out_channels: 512
+    padding: 1
+    activation: "relu"
+    bnorm2d: True
+
+  - item:
+    type: "conv2d"
+    kernel_size: 3
+    stride: 2
+    in_channels: 512
+    out_channels: 512
+    padding: 1
+    activation: "relu"
+    bnorm2d: True
+
+  - item:
+    type: "conv2d"
+    kernel_size: 3
+    stride: 1
+    in_channels: 512
+    out_channels: 512
+    padding: 1
+    activation: "relu"
+    bnorm2d: True
+
+  - item:
+    type: "conv2d"
+    kernel_size: 3
+    stride: 2
+    in_channels: 512
+    out_channels: 1024
+    padding: 1
+    activation: "relu"
+    bnorm2d: True

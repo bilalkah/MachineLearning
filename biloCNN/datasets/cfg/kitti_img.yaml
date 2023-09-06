@@ -1,0 +1,8 @@
+# Kitti image dataset config
+
+sequnce: ["00"]
+path: "/home/bilal/repos/biloCNN/datasets/kitti"
+
+data_augmentation: False
+shuffle: True
+precision: "float32"
